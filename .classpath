@@ -15,5 +15,7 @@
 			<attribute name="owner.project.facets" value="jpt.jpa"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/bkuri/Desktop/java-json.jar/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/bkuri/Desktop/apache-tomcat-9.0.5/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
