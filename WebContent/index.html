@@ -1,57 +1,135 @@
 <!DOCTYPE html>
 <html>
-
 <link rel = "stylesheet" type = "text/css"  href = "Spotify.css"/>
-
 <head>
-	<meta charset="ISO-8859-1">
-	<title>Spotify Knockoff</title>
-</head>
+<meta charset="ISO-8859-1">
+<title>Spotify Knockoff</title>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
 
+var searchResult = null;
+
+$(document).ready(function(){
+	
+	
+	$("#searchSubmit").click(function(){
+		var searchTerm = $("#searchBar").val();
+		var searchBy = $("#sortSelector").val();
+		
+		search(searchBy, searchTerm);
+	});
+	
+	$("#searchBar").keyup(function(){
+		var searchTerm = $("#searchBar").val();
+		var searchBy = $("#sortSelector").val();
+		if(searchTerm.length >= 3){
+			console.log(searchTerm);
+			search(searchBy, searchTerm);
+		}
+		
+	});
+});
+
+
+function search(key, val){
+	
+	var searchUrl = "api/get_songs?" + key + "=" + val;
+	// console.log(searchUrl);
+	$.get(searchUrl, function(data){
+		console.log(data);
+		searchResult = data;
+		SearchResults(data);
+	});
+}
+
+function SearchResults(data){
+	var tbl = $("#songTable");
+	tbl.empty();
+	var displayLimit = 100;
+	
+	if(data.length < 50){
+		displayLimit = data.length;
+	}
+	
+	
+	for(var i = 0; i < displayLimit; i++){
+		var tr = $("<tr></tr>");
+		var td = $("<td></td>");
+			
+		td = $("<td></td>");
+		td.html(data[i].title);
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].release_date)
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].length)
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].record_date)
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].first_name);
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].last_name)
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].band_name)
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].bio)
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].recording_company_name)
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].number_of_tracks)
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].PMRC_rating)
+		tr.append(td);
+		
+		td = $("<td></td>");
+		td.html(data[i].length)
+		tr.append(td);
+		
+		tbl.append(tr);
+	}
+}
+</script>
+</head>
 <body>
+	
+
 	<select name="sortSelector" id="sortSelector">
-		<option value="songSelector">Songs</option>
-		<option value="artistSelector">Artists</option>
-		<option value="albumSelector">Albums</option>
+		<option value="songName">Songs</option>
+		<option value="artistName">Artists</option>
+		<option value="albumName">Albums</option>
 	</select>
+	<br />
 	
-	<form class="searchFunction" action="">
-		<input type="text" placeholder="Search" name="searchBar" id = "searchBar">
-		<input type="submit" name = "searchSubmit" id = "searchSubmit" value = "Submit" />
+	<form class = "searchFunction", action = "">
+		<input type="text" value="" name="searchBar" id = "searchBar">
+		<input type="button" name = "searchSubmit" id = "searchSubmit" value = "Submit" />
 	</form>
+
+	<table id="songTable"></table>	
 	
-	<table id="songTable">
-	<tr>
-		<th>Title</th>
-		<th>Length</th>
-		<th>Record Date</th>
-		<th>Release Date</th>
-	</tr>
-	<tr>
-		<td>...</td>
-		<td>...</td>
-		<td>...</td>
-		<td>...</td>
-	</tr>
-	<tr>
-		<td>...</td>
-		<td>...</td>
-		<td>...</td>
-		<td>...</td>
-	</tr>
-	<tr>
-		<td>...</td>
-		<td>...</td>
-		<td>...</td>
-		<td>...</td>
-	</tr>
-	<tr>
-		<td>...</td>
-		<td>...</td>
-		<td>...</td>
-		<td>...</td>
-	</tr>
-	</table>		
+	<div style = position: absolute; right: 0px;>
+		<audio controls> <source src="summer.mp3"type="audio/mpeg"> </audio>
+	</div>
+
 </body>
 
 </html>
